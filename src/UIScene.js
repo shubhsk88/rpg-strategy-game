@@ -1,22 +1,19 @@
 import Phaser from 'phaser';
 import { EnemiesMenu, HeroesMenu, ActionsMenu } from './MultipleMenu';
 
-var UIScene = new Phaser.Class({
-  Extends: Phaser.Scene,
-
-  initialize: function UIScene() {
-    Phaser.Scene.call(this, { key: 'UIScene' });
-  },
-  remapHeroes: function () {
+class UIScene extends Phaser.Scene {
+  constructor() {
+    super({ key: 'UIScene' });
+  }
+  remapHeroes() {
     var heroes = this.battleScene.heroes;
     this.heroesMenu.remap(heroes);
-  },
-  remapEnemies: function () {
+  }
+  remapEnemies() {
     var enemies = this.battleScene.enemies;
     this.enemiesMenu.remap(enemies);
-  },
-
-  create: function () {
+  }
+  create() {
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(1, 0xffffff);
     this.graphics.fillStyle(0x031f4c, 1);
@@ -42,8 +39,13 @@ var UIScene = new Phaser.Class({
     this.remapHeroes();
     this.remapEnemies();
     this.input.keyboard.on('keydown', this.onKeyInput, this);
-  },
-  onKeyInput: function (event) {
+    this.battleScene.events.on('PlayerSelect', this.onPlayerSelect, this);
+    this.events.on('SelectEnemies', this.onSelectEnemies, this);
+
+    this.events.on('Enemy', this.onEnemy, this);
+    this.battleScene.nextTurn();
+  }
+  onKeyInput(event) {
     if (this.currentMenu) {
       if (event.code === 'ArrowUp') {
         this.currentMenu.moveSelectionUp();
@@ -54,7 +56,24 @@ var UIScene = new Phaser.Class({
         this.currentMenu.confirm();
       }
     }
-  },
-});
+  }
+  onEnemy(index) {
+    this.heroesMenu.deselect();
+    this.actionsMenu.deselect();
+    this.enemiesMenu.deselect();
+    this.currentMenu = null;
+    this.battleScene.receivePlayerSelection('attack', index);
+  }
+
+  onPlayerSelect(id) {
+    this.heroesMenu.select(id);
+    this.actionsMenu.select(0);
+    this.currentMenu = this.actionsMenu;
+  }
+  onSelectEnemies() {
+    this.currentMenu = this.enemiesMenu;
+    this.enemiesMenu.select(0);
+  }
+}
 
 export default UIScene;
