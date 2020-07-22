@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-class MenuItems extends Phaser.GameObjects.Text {
+class MenuItem extends Phaser.GameObjects.Text {
   constructor(x, y, text, scene) {
     super(this, scene, x, y, text, { color: '#ffffff' });
   }
@@ -12,3 +12,5 @@ class MenuItems extends Phaser.GameObjects.Text {
     this.setColor('#ffffff');
   }
 }
+
+export default MenuItem;
