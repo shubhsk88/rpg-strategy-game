@@ -2,7 +2,8 @@ import Phaser from 'phaser';
 import logoImg from './assets/logo.png';
 import BootScene from './BootScene';
 import WorldScene from './WorldScene';
-
+import UIScene from './UIScene';
+import BattleScene from './BattleScene';
 const config = {
   type: Phaser.AUTO,
   parent: 'content',
@@ -17,7 +18,7 @@ const config = {
       debug: true,
     },
   },
-  scene: [BootScene, WorldScene],
+  scene: [BootScene, BattleScene, UIScene],
 };
 
 const game = new Phaser.Game(config);
