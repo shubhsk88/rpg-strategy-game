@@ -6,18 +6,15 @@ import rpg from './assets/RPG_assets.png';
 import dragonblue from './assets/dragonblue.png';
 import dragonorange from './assets/dragonorrange.png';
 
-const BootScene = new Phaser.Class({
-  Extends: Phaser.Scene,
-
-  initialize: function BootScene() {
-    Phaser.Scene.call(this, { key: 'BootScene' });
-  },
-
-  preload: function () {
+class BootScene extends Phaser.Scene {
+  constructor() {
+    super({ key: 'BootScene' });
+  }
+  preload() {
     // this.load.image('tiles', spritesheet);
 
-    // // map in json format
     // this.load.tilemapTiledJSON('map', map);
+
     this.load.image('dragonblue', dragonblue);
     this.load.image('dragonorange', dragonorange);
     // our two characters
@@ -25,15 +22,12 @@ const BootScene = new Phaser.Class({
       frameWidth: 16,
       frameHeight: 16,
     });
-
-    // load the resources here
-  },
-
-  create: function () {
+  }
+  create() {
     // this.scene.start('WorldScene');
 
     this.scene.start('BattleScene');
-  },
-});
+  }
+}
 
 export default BootScene;

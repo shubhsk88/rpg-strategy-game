@@ -1,13 +1,12 @@
 import Phaser from 'phaser';
 import PlayerCharacter from './Player';
 import Enemy from './Enemy';
-const BattleScene = new Phaser.Class({
-  Extends: Phaser.Scene,
 
-  initialize: function BattleScene() {
-    Phaser.Scene.call(this, { key: 'BattleScene' });
-  },
-  create: function () {
+class BattleScene extends Phaser.Scene {
+  constructor() {
+    super({ key: 'BattleScene' });
+  }
+  create() {
     // Run UI Scene at the same time
 
     this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
@@ -64,7 +63,7 @@ const BattleScene = new Phaser.Class({
     this.units = this.heroes.concat(this.enemies);
 
     this.scene.launch('UIScene');
-  },
-});
+  }
+}
 
 export default BattleScene;

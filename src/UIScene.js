@@ -7,6 +7,14 @@ var UIScene = new Phaser.Class({
   initialize: function UIScene() {
     Phaser.Scene.call(this, { key: 'UIScene' });
   },
+  remapHeroes: function () {
+    var heroes = this.battleScene.heroes;
+    this.heroesMenu.remap(heroes);
+  },
+  remapEnemies: function () {
+    var enemies = this.battleScene.enemies;
+    this.enemiesMenu.remap(enemies);
+  },
 
   create: function () {
     this.graphics = this.add.graphics();
@@ -28,6 +36,24 @@ var UIScene = new Phaser.Class({
     this.menus.add(this.heroesMenu);
     this.menus.add(this.actionsMenu);
     this.menus.add(this.enemiesMenu);
+
+    this.battleScene = this.scene.get('BattleScene');
+
+    this.remapHeroes();
+    this.remapEnemies();
+    this.input.keyboard.on('keydown', this.onKeyInput, this);
+  },
+  onKeyInput: function (event) {
+    if (this.currentMenu) {
+      if (event.code === 'ArrowUp') {
+        this.currentMenu.moveSelectionUp();
+      } else if (event.code === 'ArrowDown') {
+        this.currentMenu.moveSelectionDown();
+      } else if (event.code === 'ArrowRight' || event.code === 'Shift') {
+      } else if (event.code === 'Space' || event.code === 'ArrowLeft') {
+        this.currentMenu.confirm();
+      }
+    }
   },
 });
 
