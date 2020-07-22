@@ -10,11 +10,15 @@ class Message extends Phaser.GameObjects.Container {
     this.text = new Phaser.GameObjects.Text(scene, 0, 0, '', {
       color: '#ffffff',
     });
+
     this.add(this.text);
-    event.on('Message', this.showMessage, this);
+    this.text.setOrigin(0.5);
+    events.on('Message', this.showMessage, this);
     this.visible = false;
   }
   showMessage(text) {
+    console.log(text);
+
     this.text.setText(text);
     this.visible = true;
     if (this.hideEvent) {
@@ -31,3 +35,5 @@ class Message extends Phaser.GameObjects.Container {
     this.visible = false;
   }
 }
+
+export default Message;

@@ -11,9 +11,9 @@ class BootScene extends Phaser.Scene {
     super({ key: 'BootScene' });
   }
   preload() {
-    // this.load.image('tiles', spritesheet);
+    this.load.image('tiles', spritesheet);
 
-    // this.load.tilemapTiledJSON('map', map);
+    this.load.tilemapTiledJSON('map', map);
 
     this.load.image('dragonblue', dragonblue);
     this.load.image('dragonorange', dragonorange);
@@ -24,9 +24,7 @@ class BootScene extends Phaser.Scene {
     });
   }
   create() {
-    // this.scene.start('WorldScene');
-
-    this.scene.start('BattleScene');
+    this.scene.start('WorldScene');
   }
 }
 

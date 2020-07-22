@@ -14,16 +14,6 @@ var WorldScene = new Phaser.Class({
     const obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
     obstacles.setCollisionByExclusion([-1]);
 
-    this.player = this.physics.add.sprite(50, 100, 'player', 6);
-
-    this.physics.world.bounds.width = map.widthInPixels;
-    this.physics.world.bounds.height = map.heightInPixels;
-    this.player.setCollideWorldBounds(true);
-
-    this.cursors = this.input.keyboard.createCursorKeys();
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    this.cameras.main.startFollow(this.player);
-    this.cameras.main.roundPixels = true;
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('player', {
@@ -58,6 +48,18 @@ var WorldScene = new Phaser.Class({
       frameRate: 10,
       repeat: -1,
     });
+
+    this.player = this.physics.add.sprite(50, 100, 'player', 6);
+
+    this.physics.world.bounds.width = map.widthInPixels;
+    this.physics.world.bounds.height = map.heightInPixels;
+    this.player.setCollideWorldBounds(true);
+
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.roundPixels = true;
+
     this.physics.add.collider(this.player, obstacles);
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -75,6 +77,8 @@ var WorldScene = new Phaser.Class({
       false,
       this
     );
+
+    this.sys.events.on('wake', this.wake, this);
     // create your world here
   },
   update: function (time, delta) {
@@ -111,7 +115,17 @@ var WorldScene = new Phaser.Class({
     // shake the world
     this.cameras.main.shake(300);
 
+    this.input.stopPropagation();
+
+    this.scene.switch('BattleScene');
+
     // start battle
+  },
+  wake: function () {
+    this.cursors.left.reset();
+    this.cursors.right.reset();
+    this.cursors.up.reset();
+    this.cursors.down.reset();
   },
 });
 
